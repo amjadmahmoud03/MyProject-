@@ -1,0 +1,111 @@
+[
+  {
+    "id": "64f9a1c2e3b4d5f678901234",
+    "title": "Modern Leather Sofa",
+    "color": "Brown",
+    "size": "220x90x85",
+    "price": 950,
+    "currency": "USD",
+    "condition": "New",
+    "status": "Available",
+    "delivery": true,
+    "exchange": false,
+    "description": "Elegant brown leather sofa with high-density foam and solid wood frame. Perfect for modern living rooms.",
+    "contact": {
+      "email": "seller1@homsmart.com",
+      "phone": "+963933456789",
+      "whatsapp": "+963933456789"
+    },
+    "images": [
+      {
+        "public_id": "sofa123",
+        "url": "https://res.cloudinary.com/demo/image/upload/v1699999999/sofa123.jpg"
+      }
+    ],
+    "views": 12,
+    "viewedBy": ["64f1a2b3c4d5e6f789012345"],
+    "user": "64f1a2b3c4d5e6f789012345",
+    "category": "64f1b2c3d4e5f6a789012346"
+  },
+  {
+    "id": "64f9a1c2e3b4d5f678901235",
+    "title": "Gaming Laptop RTX 4060",
+    "color": "Black",
+    "size": "15x10x1",
+    "price": 1450,
+    "currency": "EUR",
+    "condition": "Used",
+    "status": "Available",
+    "delivery": false,
+    "exchange": true,
+    "description": "High-performance gaming laptop with Intel i7, 16GB RAM, 1TB SSD, and RTX 4060 GPU. Minor scratches on lid.",
+    "contact": {
+      "email": "techzone@europegear.com",
+      "telegram": "@techzone_support"
+    },
+    "images": [
+      {
+        "public_id": "laptop4060",
+        "url": "https://res.cloudinary.com/demo/image/upload/v1699999999/laptop4060.jpg"
+      }
+    ],
+    "views": 34,
+    "viewedBy": ["64f1a2b3c4d5e6f789012345", "64f1c3d4e5f6a7b890123456"],
+    "user": "64f1c3d4e5f6a7b890123456",
+    "category": "64f1d4e5f6a7b8c901234567"
+  },
+  {
+    "id": "64f9a1c2e3b4d5f678901236",
+    "title": "Handmade Syrian Rug",
+    "color": "Red",
+    "size": "200x300",
+    "price": 300,
+    "currency": "SYP",
+    "condition": "New",
+    "status": "Pending",
+    "delivery": true,
+    "exchange": false,
+    "description": "Authentic handmade rug from Aleppo with traditional patterns. Made from natural wool and dyes.",
+    "contact": {
+      "phone": "+963944123456",
+      "email": "crafts@syheritage.com"
+    },
+    "images": [
+      {
+        "public_id": "rug_aleppo",
+        "url": "https://res.cloudinary.com/demo/image/upload/v1699999999/rug_aleppo.jpg"
+      }
+    ],
+    "views": 5,
+    "viewedBy": [],
+    "user": "64f1e5f6a7b8c9d012345678",
+    "category": "64f1f6a7b8c9d0e123456789"
+  },
+  {
+    "id": "64f9a1c2e3b4d5f678901237",
+    "title": "iPhone 13 Pro Max",
+    "color": "Silver",
+    "size": "6.7x3.1x0.3",
+    "price": 1100,
+    "currency": "USD",
+    "condition": "Used",
+    "status": "Available",
+    "delivery": false,
+    "exchange": true,
+    "description": "iPhone 13 Pro Max 256GB, excellent condition, battery health 89%, Face ID working perfectly.",
+    "contact": {
+      "email": "mobiles@homstech.com",
+      "whatsapp": "+963944987654"
+    },
+    "images": [
+      {
+        "public_id": "iphone13pm",
+        "url": "https://res.cloudinary.com/demo/image/upload/v1699999999/iphone13pm.jpg"
+      }
+    ],
+    "views": 21,
+    "viewedBy": ["64f1a2b3c4d5e6f789012345"],
+    "user": "64f1a2b3c4d5e6f789012345",
+    "category": "64f1b2c3d4e5f6a789012346"
+  }
+]

@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email!'],
   },
-  photo: String,
+  photo: {
+    public_id: String,
+    url: String,
+  },
   role: {
     type: String,
     enum: {
@@ -50,13 +53,33 @@ const userSchema = new mongoose.Schema({
       message: 'accountStatus is ethier: (Active, Suspended, Deleted)',
     },
     default: 'Active',
+  },
+  byAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  passwordChangedAt: {
+    type: Date,
     select: false,
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  //  favorite
+  passwordResetToken: {
+    type: String,
+    select: false,
+  },
+  passwordResetExpires: {
+    type: Date,
+    select: false,
+  },
+  favorites: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Ad',
+    },
+  ],
 });
+
+// There is an index on email because it's unique.
+userSchema.index({ accountStatus: 1 });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

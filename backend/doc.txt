@@ -1,0 +1,290 @@
+// server.js
+
+Here, linking the dotenv configuration file, connection to the database,
+creating the server, and listening to it.
+_________________________________________________________________________________
+
+// app.js
+
+creating express app, mounting routes(users,....)
+and using some middlerware like:
+  - morgan (logger) if we use development enviroment.
+  - express.json to parse body.
+  - globalErrorHandler that I used for handle all errors(errorController.js).
+_________________________________________________________________________________
+
+// utils folder
+
+- appError.js: class for errors that I used for represent any error.
+- email.js: logic that related to nodemailer(using it in forgot and reset password).
+- catchAsync.js: function I used it to catch errors instead of using try-catch structure.
+_________________________________________________________________________________
+
+// models folder
+
+- userModel.js: contain user schema, user model, functions, 
+  and all pre-post hooks(middleware) that implement functionality for users.
+_________________________________________________________________________________
+
+
+// endpoints -> (userRoutes.js, userController.js, authController.js)
+
+1### 
+URL: POST /api/v1/users/signup
+     router.post('/signup', authController.signup)
+
+Description: Register a new user.
+
+Headers:
+Content-Type: application/json
+
+Body (JSON):
+{
+  "name": "string",
+  "email": "string",
+  "password": "string"
+  "passwordConfirm" : "string"
+}
+
+Notes:
+- All fields are required.
+- email must be valid and not already registered.
+- passwordConfirm must match password.
+- You can show validation errors from the response if any field is missing or invalid.
+
+Response success(201 created): status, token and user
+{
+  "status": "success",
+  "token": "token",
+  "data": {
+    "user": {
+        "name": "amjad1",
+        "email": "amjad1@test.io",
+        "role": "user",
+        "accountStatus": "Active",
+        "favorites": [],
+        "_id": "68a352da7b1aab0d350d6a5a",
+        "__v": 0
+    }
+  }
+}
+_________________________________________________________________________________
+
+2### 
+URL: POST {{URL}}/api/v1/users/login
+     router.post('/login', authController.login)
+
+Description: Authenticate an existing user and receive a JWT token for accessing protected routes.
+
+Headers:
+Content-Type: application/json
+
+Body (JSON):
+{
+  "email": "string",
+  "password": "string"
+}
+
+Notes:
+- Both fields are required.
+- Email must match a registered user.
+- Password must be correct.
+- Show validation errors if login fails.
+
+Response success(200 ok): status, token and user
+{
+  "status": "success",
+  "token": "token",
+  "data": {
+    "user": {
+        "_id": "68a352da7b1aab0d350d6a5a",
+        "name": "amjad1",
+        "email": "amjad1@test.io",
+        "role": "user",
+        "accountStatus": "Active",
+        "favorites": [],
+        "__v": 0
+    }
+  }
+}
+_________________________________________________________________________________
+
+3### 
+URL: POST {{URL}}/api/v1/users/forgotPassword
+     router.post('/forgotPassword', authController.forgotPassword)
+
+Description:
+- Allows users to reset their password if they forget it.
+- Sends a reset link to the user's email with a secure token.
+- The user clicks the link → goes to reset → submits new password.
+
+Headers:
+Content-Type: application/json
+
+Body (JSON):
+json
+{
+  "email": "string"
+}
+
+Response success(200 ok): status and message
+{
+  "status": "success",
+  "message": "Token sent to email"
+}
+_________________________________________________________________________________
+
+4### 
+URL: PATCH {{URL}}/api/v1/users/resetPassword/:token
+     router.patch('/resetPassword/:token', authController.resetPassword)
+
+Notes: 
+- now I used mailtrap.io for development enviroment.
+- this url will user recive it in your email.
+ex: http://127.0.0.1:3000/api/v1/users/resetPassword/6bc9b2a8a37dd86808fafe84a05a8def31209abe71a7023b7a944bbc38f1219e.
+
+Description:
+Allows a user to set a new password
+using the secure token they received via email.
+
+Headers:
+Content-Type: application/json
+
+Body (JSON):
+json
+{
+    "password" : "string",
+    "passwordConfirm" : "string"
+}
+
+Response success(200 ok): status, token and user 
+{
+  "status": "success",
+  "token": "token",
+  "data": {
+    "user": {
+        "_id": "68a352da7b1aab0d350d6a5a",
+        "name": "amjad1",
+        "email": "amjad1@test.io",
+        "role": "user",
+        "favorites": [],
+        "__v": 0,
+        "passwordChangedAt": "2025-08-18T17:29:03.126Z"
+    }
+  }
+}
+_________________________________________________________________________________
+
+5### 
+URL: PATCH {{URL}}/api/v1/users/updateMyPassword
+     router.patch('/updateMyPassword',authController.protect,authController.updatePassword)
+
+Description:
+Allows a logged-in user to change 
+their password by providing the current one.
+
+Headers:
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+
+Body (JSON):
+{
+  "passwordCurrent" : "string",
+  "password" : "string",
+  "passwordConfirm" : "string"
+}
+
+Response success(200 ok): status, token and user
+{
+  "status": "success",
+  "token": "token",
+  "data": {
+    "user": {
+        "_id": "68a352da7b1aab0d350d6a5a",
+        "name": "amjad1",
+        "email": "amjad1@test.io",
+        "role": "user",
+        "favorites": [],
+        "__v": 0,
+        "passwordChangedAt": "2025-08-18T17:43:58.417Z"
+    }
+  }
+}
+_________________________________________________________________________________
+
+6### 
+URL: PATCH {{URL}}/api/v1/users/updateMe
+     router.patch('/updateMe', authController.protect, userController.updateMe)
+
+Description:
+Allows a logged-in user to update 
+their profile info (e.g. name, email).
+
+Headers:
+Authorization: Bearer <JWT_TOKEN>
+Content-Type: multipart/form-data 
+note: (now is application/json until implemention of photo functionality).
+
+Body (JSON):
+{
+  "name" : "string",
+  "email" : "string"
+}
+note: (name, email, photo) can you update.
+
+Response success(200 ok): status and user
+{
+  "status": "success",
+  "data": {
+    "user": {
+        "_id": "68a352da7b1aab0d350d6a5a",
+        "name": "amjad2",
+        "email": "amjad2@test.io",
+        "role": "user",
+        "favorites": [],
+        "__v": 0,
+        "passwordChangedAt": "2025-08-18T17:43:58.417Z"
+    }
+  }
+}
+_________________________________________________________________________________
+
+7### 
+URL: PATCH {{URL}}/api/v1/users/suspendMe
+     router.patch('/suspendMe', authController.protect, userController.suspendMe)
+
+Description:
+Allows a logged-in user to suspend (deactivate) their own account. 
+note: the account remains in the database but is marked as Suspended
+      and when user login again activate account.
+
+Headers:
+Authorization: Bearer <JWT_TOKEN>
+
+Body (JSON):
+{
+  "password" : "string"
+}
+
+Response success(204 No content)
+_________________________________________________________________________________
+
+8### 
+URL: PATCH {{URL}}/api/v1/users/deleteMe
+     router.patch('/deleteMe', authController.protect, userController.deleteMe)
+
+
+Description:
+Allows a logged-in user to permanently delete their account. 
+note: the account remains in the database but is marked as Deleted
+      and when user login again can't activate account.(soft delete)
+
+Headers:
+Authorization: Bearer <JWT_TOKEN>
+
+Body (JSON):
+{
+  "password" : "string"
+}
+
+Response success(204 No content)

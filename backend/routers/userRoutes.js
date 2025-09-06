@@ -17,7 +17,15 @@ router.patch(
 );
 
 router.patch('/updateMe', authController.protect, userController.updateMe);
-router.delete('/suspendMe', authController.protect, userController.suspendMe);
-router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.patch('/suspendMe', authController.protect, userController.suspendMe);
+router.patch('/deleteMe', authController.protect, userController.deleteMe);
+
+router.get('/favorites', authController.protect, userController.getMyFav);
+router.post('/favorites', authController.protect, userController.addToFav);
+router.delete(
+  '/favorites/:id',
+  authController.protect,
+  userController.removeFromFav,
+);
 
 module.exports = router;
