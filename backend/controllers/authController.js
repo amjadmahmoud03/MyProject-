@@ -54,7 +54,11 @@ exports.login = catchAsync(async (req, res, next) => {
     .setOptions({ skipHook: true })
     .select('+password');
 
-  if (user.accountStatus !== 'Active' && user.byAdmin) {
+  if (!user) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
+
+  if (user.accountStatus && user.accountStatus !== 'Active' && user.byAdmin) {
     return next(
       new AppError(`This account has been ${user.accountStatus}`, 400),
     );
@@ -64,7 +68,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('This account has been deleted', 400));
   }
 
-  if (!user || !(await user.correctPassword(password, user.password))) {
+  if (!(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
 

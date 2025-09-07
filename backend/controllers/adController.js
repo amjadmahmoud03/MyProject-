@@ -24,9 +24,7 @@ exports.getAllAds = catchAsync(async (req, res, next) => {
     totalAds,
     totalPages,
     currentPage,
-    data: {
-      data: ads,
-    },
+    data: ads,
   });
 });
 
@@ -50,9 +48,7 @@ exports.getAd = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      data: ad,
-    },
+    data: ad,
   });
 });
 
@@ -62,14 +58,14 @@ exports.createAd = catchAsync(async (req, res, next) => {
   }
 
   req.body.status = 'Pending';
+  req.body.user = req.user.id;
 
   const ad = await Ad.create(req.body);
 
   res.status(201).json({
     status: 'success',
-    data: {
-      data: ad,
-    },
+    message: 'Ad has been successfully created.',
+    data: ad,
   });
 });
 
@@ -104,9 +100,8 @@ exports.updateAd = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      data: updatedAd,
-    },
+    message: 'Ad has been successfully updated.',
+    data: updatedAd,
   });
 });
 
@@ -129,6 +124,7 @@ exports.deleteAd = catchAsync(async (req, res, next) => {
 
   res.status(204).json({
     status: 'success',
+    message: 'Ad has been successfully deleted.',
     data: null,
   });
 });

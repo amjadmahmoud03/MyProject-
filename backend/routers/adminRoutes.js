@@ -68,6 +68,12 @@ router.get(
   authController.restrictTo('admin'),
   adminController.getAd,
 );
+router.patch(
+  '/ads/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  adminController.updateAd,
+);
 router.delete(
   '/ads/:id',
   authController.protect,

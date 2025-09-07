@@ -39,9 +39,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      user: updatedUser,
-    },
+    message: 'Your account has been updated successfully',
+    data: updatedUser,
   });
 });
 
@@ -94,9 +93,7 @@ exports.getMyFav = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     results: favorites.length,
-    data: {
-      data: favorites,
-    },
+    data: favorites,
   });
 });
 
@@ -130,9 +127,8 @@ exports.addToFav = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      data: favorites,
-    },
+    message: 'Ad has been successfully Added.',
+    data: favorites,
   });
 });
 
@@ -157,6 +153,7 @@ exports.removeFromFav = catchAsync(async (req, res, next) => {
 
   res.status(204).json({
     status: 'success',
+    message: 'Ad has been successfully deleted.',
     data: null,
   });
 });
